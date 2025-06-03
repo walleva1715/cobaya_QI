@@ -1,0 +1,110 @@
+theory:
+  qi_inflation:
+    python_path: /global/homes/y/yunanxie/QI_CAMB
+    class: cobaya_qi_inflation.QuintessenceInflationTheory
+    stop_at_error: true
+likelihood:
+  planck_2018_highl_plik.TTTEEE:
+    stop_at_error: true
+  planck_2018_lowl.EE:
+    stop_at_error: true
+  planck_2018_lensing.clik:
+    stop_at_error: true
+params:
+  N_efolds:
+    prior:
+      dist: norm
+      loc: 60
+      scale: 3
+    ref: 60
+    proposal: 1
+  log10_gamma:
+    prior:
+      min: -4
+      max: -2
+    proposal: 0.1
+    latex: \\log_{10}\\gamma
+  gamma:
+    value: 'lambda log10_gamma: 10**log10_gamma'
+    latex: \\gamma
+  n_exp:
+    value: 4.0
+    latex: n_\\mathrm{exp}
+  H0:
+    prior:
+      min: 20
+      max: 100
+    ref:
+      dist: norm
+      loc: 67.0
+      scale: 10.0
+    proposal: 0.5
+    latex: H_0
+  ombh2:
+    prior:
+      min: 0.005
+      max: 0.1
+    ref:
+      dist: norm
+      loc: 0.0224
+      scale: 0.0005
+    proposal: 0.0001
+    latex: \Omega_\mathrm{b} h^2
+  omch2:
+    prior:
+      min: 0.001
+      max: 0.99
+    ref:
+      dist: norm
+      loc: 0.12
+      scale: 0.005
+    proposal: 0.0005
+    latex: \Omega_\mathrm{c} h^2
+  tau:
+    prior:
+      min: 0.005
+      max: 0.8
+    ref:
+      dist: norm
+      loc: 0.055
+      scale: 0.015
+    proposal: 0.003
+    latex: \tau_\mathrm{reio}
+  logA:
+    prior:
+      min: 1.61
+      max: 3.91
+    ref:
+      dist: norm
+      loc: 3.05
+      scale: 0.01
+    proposal: 0.001
+    latex: \log(10^{10} A_\mathrm{s})
+    drop: true
+  As:
+    value: 'lambda logA: 1e-10*np.exp(logA)'
+    latex: A_\mathrm{s}
+  A:
+    derived: 'lambda As: 1e9*As'
+    latex: 10^9 A_\mathrm{s}
+  n_s:
+    latex: n_s
+  r:
+    latex: r_{0.05}
+
+sampler:
+  mcmc:
+    drag: true
+    oversample_power: 0.4
+    proposal_scale: 0.5
+    covmat: auto
+    Rminus1_stop: 0.01
+    Rminus1_cl_stop: 0.2
+    max_samples: 500000
+
+packages_path: /pscratch/sd/y/yunanxie/cobaya_data
+python_path:
+- /pscratch/sd/y/yunanxie/cobaya_data/code/planck/clik-main/lib/python/site-packages
+output: /pscratch/sd/y/yunanxie/chains/qi_fixed_nexp/basic/qi_model_run
+
+# force: True 
